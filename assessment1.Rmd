@@ -1,5 +1,5 @@
 ---
-title: "Assessment 1"
+title: "Assessment 1.1"
 author: "Jason Owen Jongsoo"
 date: "8/19/2021"
 output: html_document
@@ -9,4 +9,55 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## assessment 1.1
+# Rmarkdown ***editing***
+
+R Markdown is a file format for making dynamic documents with R. 
+An R Markdown document is written in markdown (an easy-to-write plain text format) and contains chunks of embedded R code.
+
+This is a link to Rmarkdown Studio Basics.
+[Rmarkdown Studio Basics](https://rmarkdown.rstudio.com/lesson-8.html)
+
+```{r include=FALSE}
+
+library(tidyverse) # include libraries of tidyverse, skimr, janitor
+library(skimr)
+library(janitor)
+
+```
+
+Task 7
+
+```{r echo=FALSE }
+
+fastfood<-read.csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv')
+knitr::kable(head(fastfood[, 1:5], n = 10L), "pipe")
+
+```
+
+Task 8
+
+```{r echo=FALSE}
+
+fastfood_1<-fastfood %>% filter(calories>1000)
+knitr::kable(fastfood_1[, 1:5], "pipe")
+
+```
+
+Task 9
+
+```{r echo=FALSE}
+
+dont_eat_this<-fastfood %>% filter(total_fat>40 & total_carb>80)
+knitr::kable(dont_eat_this[, 1:5], "pipe")
+
+```
+
+Task 10
+
+```{r echo=FALSE}
+
+knitr::kable(fastfood %>% filter(restaurant=="Mcdonalds"), "pipe")
+
+```
+
+
