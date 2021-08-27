@@ -18,11 +18,13 @@ This is a link to Rmarkdown Studio Basics.
 [Rmarkdown Studio Basics](https://rmarkdown.rstudio.com/lesson-8.html)
 
 ```{r include=FALSE}
-
-library(tidyverse) # include libraries of tidyverse, skimr, janitor
+library(dplyr)
+library(knitr)
+library(tidyverse)
 library(skimr)
 library(janitor)
-
+library(scales)
+library(lubridate)
 ```
 
 Task 7
@@ -30,7 +32,8 @@ Task 7
 ```{r echo=FALSE }
 
 fastfood<-read.csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv')
-knitr::kable(head(fastfood[, 1:5], n = 10L), "pipe")
+head(fastfood, n = 10L)
+kable(fastfood[1:10 , 1:5], "pipe")
 
 ```
 
@@ -39,7 +42,7 @@ Task 8
 ```{r echo=FALSE}
 
 fastfood_1<-fastfood %>% filter(calories>1000)
-knitr::kable(fastfood_1[, 1:5], "pipe")
+kable(fastfood_1, "pipe")
 
 ```
 
@@ -48,7 +51,7 @@ Task 9
 ```{r echo=FALSE}
 
 dont_eat_this<-fastfood %>% filter(total_fat>40 & total_carb>80)
-knitr::kable(dont_eat_this[, 1:5], "pipe")
+kable(dont_eat_this, "pipe")
 
 ```
 
@@ -56,8 +59,87 @@ Task 10
 
 ```{r echo=FALSE}
 
-knitr::kable(fastfood %>% filter(restaurant=="Mcdonalds"), "pipe")
+kable(fastfood %>% filter(restaurant=="Mcdonalds"), "pipe")
 
 ```
+
+Task 11
+
+```{r echo=FALSE}
+
+skim(fastfood)
+
+```
+
+Task 12
+
+```{r echo=FALSE}
+
+kable(count(fastfood %>% group_by(restaurant)), "pipe")
+
+```
+
+Task 13
+
+```{r echo=FALSE}
+
+kable(fastfood %>% group_by(restaurant) %>% summarise(mean(calories)), "pipe")
+
+```
+
+Task 14
+
+```{r echo=FALSE}
+
+fastfood<-fastfood %>% group_by(restaurant) %>% mutate(average_calories=mean(calories))
+
+kable(fastfood, "pipe")
+
+```
+
+Task 15
+
+I choose kable to show the table of fastfood data set and grouped by restaurant 
+to make it simpler and easier to read. Then I summaries and sum the total_fat according
+to each restaurant
+```{r echo=FALSE}
+
+kable(fastfood %>% group_by(restaurant) %>% summarise(sum(total_fat)), "pipe")
+
+```
+
+Task 16
+
+```{r echo=FALSE}
+
+fastfood<-fastfood %>% group_by(restaurant) %>% mutate(max_total_fat=max(total_fat))
+
+kable(fastfood, "pipe")
+
+```
+
+
+Task 17
+
+```{r echo=FALSE}
+
+fastfood %>% filter(restaurant=="Mcdonalds") %>% ggplot(aes(sugar, protein)) + geom_point() + ggtitle("Mcdonalds")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
