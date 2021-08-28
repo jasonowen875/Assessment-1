@@ -50,7 +50,8 @@ Task 9
 
 ```{r echo=FALSE}
 
-dont_eat_this<-fastfood %>% filter(total_fat>40 & total_carb>80)
+dont_eat_this<-fastfood %>% 
+  filter(total_fat>40 & total_carb>80)
 kable(dont_eat_this, "pipe")
 
 ```
@@ -59,7 +60,8 @@ Task 10
 
 ```{r echo=FALSE}
 
-kable(fastfood %>% filter(restaurant=="Mcdonalds"), "pipe")
+kable(fastfood %>% 
+        filter(restaurant=="Mcdonalds"), "pipe")
 
 ```
 
@@ -75,7 +77,8 @@ Task 12
 
 ```{r echo=FALSE}
 
-kable(count(fastfood %>% group_by(restaurant)), "pipe")
+kable(count(fastfood %>% 
+              group_by(restaurant)), "pipe")
 
 ```
 
@@ -83,7 +86,9 @@ Task 13
 
 ```{r echo=FALSE}
 
-kable(fastfood %>% group_by(restaurant) %>% summarise(mean(calories)), "pipe")
+kable(fastfood %>% 
+        group_by(restaurant) %>% 
+        summarise(mean(calories)), "pipe")
 
 ```
 
@@ -91,7 +96,9 @@ Task 14
 
 ```{r echo=FALSE}
 
-fastfood<-fastfood %>% group_by(restaurant) %>% mutate(average_calories=mean(calories))
+fastfood<-fastfood %>% 
+  group_by(restaurant) %>% 
+  mutate(average_calories=mean(calories))
 
 kable(fastfood, "pipe")
 
@@ -104,7 +111,9 @@ to make it simpler and easier to read. Then I summaries and sum the total_fat ac
 to each restaurant
 ```{r echo=FALSE}
 
-kable(fastfood %>% group_by(restaurant) %>% summarise(sum(total_fat)), "pipe")
+kable(fastfood %>% 
+        group_by(restaurant) %>% 
+        summarise(sum(total_fat)), "pipe")
 
 ```
 
@@ -112,7 +121,9 @@ Task 16
 
 ```{r echo=FALSE}
 
-fastfood<-fastfood %>% group_by(restaurant) %>% mutate(max_total_fat=max(total_fat))
+fastfood<-fastfood %>% 
+  group_by(restaurant) %>% 
+  mutate(max_total_fat=max(total_fat))
 
 kable(fastfood, "pipe")
 
@@ -123,23 +134,76 @@ Task 17
 
 ```{r echo=FALSE}
 
-fastfood %>% filter(restaurant=="Mcdonalds") %>% ggplot(aes(sugar, protein)) + geom_point() + ggtitle("Mcdonalds")
+fastfood %>% 
+  filter(restaurant=="Mcdonalds") %>% 
+  ggplot(aes(sugar, protein)) + geom_point() + ggtitle("Mcdonalds")
 
 ```
 
+Task 18
+
+```{r echo=FALSE}
+
+#fastfood_factor<-
+
+```
+
+Task 19
+
+```{r echo=FALSE}
+
+fastfood<-fastfood %>%
+  mutate(calories_type = cut_number(calories, n=3, labels=c("low", "med", "high"))) %>%
+  arrange(calories)
+
+```
+
+Task 20
+
+```{r echo=FALSE}
+
+fastfood %>%
+  ggplot(aes(calories_type, fill = calories_type)) + geom_bar() + facet_wrap(vars(restaurant))
+
+```
+
+Task 21
+
+```{r echo=FALSE}
+
+fastfood<-fastfood %>%
+  mutate(trans_fat_percent = round(trans_fat/total_fat*100,2)) %>%
+  arrange(trans_fat_percent)
+
+```
+
+Task 22
+
+```{r echo=FALSE}
+
+fastfood %>%
+  ggplot(aes(trans_fat_percent)) + geom_line() + facet_wrap(vars(restaurant))
+
+```
+
+Task 23
+
+```{r echo=FALSE}
+
+kable(fastfood %>% 
+        group_by(restaurant) %>% 
+        summarise(Average_total_fat = round(mean(total_fat),2)), "pipe")
+
+```
+
+Task 24
+
+```{r echo=FALSE}
+
+fastfood %>% 
+  group_by(restaurant) %>% 
+  summarise(Average_total_fat = round(mean(total_fat),2)) %>%
+  ggplot(aes(Average_total_fat, fill = restaurant)) + geom_bar()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
